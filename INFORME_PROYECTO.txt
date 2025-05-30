@@ -1,0 +1,44 @@
+INFORME DEL PROYECTO: Backend App con Docker y MongoDB
+
+Introducción
+------------
+Este proyecto consiste en el desarrollo de una API RESTful utilizando Node.js y Express, con MongoDB como base de datos. El objetivo principal es demostrar cómo contenerizar una aplicación backend y su base de datos utilizando Docker y Docker Compose, facilitando así la gestión, despliegue y escalabilidad del entorno de desarrollo.
+
+Arquitectura
+------------
+La arquitectura del proyecto está basada en microservicios, donde cada componente principal se ejecuta en un contenedor independiente:
+
+- backend_app_container: Contiene la aplicación Node.js/Express, que expone una API REST para la gestión de usuarios.
+- mongodb_container: Contenedor de la base de datos MongoDB, utilizada para almacenar la información de los usuarios.
+
+Ambos contenedores están conectados a través de una red interna de Docker (app_network), lo que permite la comunicación segura y eficiente entre la API y la base de datos.
+
+Funcionamiento
+--------------
+1. Inicialización:
+   Al ejecutar `docker-compose up -d`, Docker Compose crea y levanta los contenedores definidos en el archivo docker-compose.yml.
+
+2. Persistencia de datos:
+   Se utilizan volúmenes de Docker para asegurar que los datos de la base de datos persistan aunque el contenedor de MongoDB se reinicie o elimine.
+
+3. Comunicación:
+   La API se conecta a la base de datos MongoDB utilizando la variable de entorno MONGO_URI, definida en el archivo de configuración.
+
+4. Exposición de servicios:
+   - La API está disponible en el puerto 5000 del host.
+   - MongoDB expone el puerto 27017 para administración o conexión externa si es necesario.
+
+Endpoints principales
+---------------------
+- GET /api/users: Lista todos los usuarios registrados.
+- POST /api/users: Permite crear un nuevo usuario enviando un JSON con los campos name, email y age.
+
+Ventajas del uso de Docker
+--------------------------
+- Portabilidad: El entorno es replicable en cualquier máquina con Docker instalado.
+- Aislamiento: Cada servicio corre en su propio contenedor, evitando conflictos de dependencias.
+- Escalabilidad: Es sencillo escalar servicios o añadir nuevos componentes (por ejemplo, una UI) a la arquitectura.
+
+Conclusión
+----------
+Este proyecto es un ejemplo práctico de cómo contenerizar una aplicación backend y su base de datos, facilitando el desarrollo, pruebas y despliegue en diferentes entornos. Además, sienta las bases para añadir nuevos servicios, como una interfaz de usuario (UI), siguiendo la misma filosofía de microservicios y contenedores.
